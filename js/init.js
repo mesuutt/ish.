@@ -1,4 +1,4 @@
-(function(w){
+var initIsh = function(w){
 	var sw = document.body.clientWidth, //Viewport Width
 		sh = document.body.clientHeight, //Viewport Height
 		minViewportWidth = 240, //Minimum Size for Viewport
@@ -28,6 +28,29 @@
 			$activeLink.addClass('active');
 		}
 	}
+
+    $('#url-submit').on('click', function(e) {
+        var url = $('#url').val();
+        if (!url) return;
+        $('#sg-viewport').attr('src', url);
+    });
+
+    $('#url').on('keyup', function(e) {
+        if (e.which == 13) {
+            var url = $('#url').val();
+            if (!url) return;
+            $('#sg-viewport').attr('src', url);
+        }
+    })
+    .on('click', function() {
+		// Select input text
+        $(this).select();
+    });
+
+    // Exit from responsive test mode
+    $('.sg-exit').on('click', function() {
+        window.location.reload();
+    });
 
 	/* Pattern Lab accordion dropdown */
 	$('.sg-acc-handle').on("click", function(e){
@@ -80,6 +103,7 @@
 		killHay();
 		changeActiveState($(this));
 		sizeiframe(sw);
+		window.location.hash = 'full';
 	});
 
 	//Click Random Size Button
@@ -369,4 +393,4 @@
 		sizeRandom(); ///Random screen size if hash says 'random'
 	}
 
-})(this);
+}
