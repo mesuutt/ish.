@@ -1,6 +1,6 @@
 {
-    "name": "Resposive test in place",
-    "description": "Test responive design of any website with one click",
+    "name": "Resposive Test in place",
+    "description": "Test responive design of any website with one click. No needs any permission.",
     "manifest_version": 2,
     "version": "0.1",
     "content_scripts": [{
@@ -8,10 +8,15 @@
         "css": [ "styles.css" ],
         "matches": ["http://*/*", "https://*/*"]
     }],
+    "background": {
+        "scripts": ["background.js"]
+    },
     "browser_action": {
         "default_icon": "icon.png"
     },
-    "background": {
-        "scripts": ["background.js"]
+    "icons": {
+        "16": "icon.png",
+        "48": "icon.png",
+        "128": "icon.png"
     }
 }
