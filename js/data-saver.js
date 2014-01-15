@@ -79,10 +79,10 @@
  */
 
 var DataSaver = {
-	
+
 	// the name of the cookie to store the data in
 	cookieName: "patternlab",
-	
+
 	/**
 	* Add a given value to the cookie
 	* @param  {String}       the name of the key
@@ -97,7 +97,7 @@ var DataSaver = {
 		}
 		$.cookie(this.cookieName,cookieVal);
 	},
-	
+
 	/**
 	* Update a value found in the cookie. If the key doesn't exist add the value
 	* @param  {String}       the name of the key
@@ -116,14 +116,14 @@ var DataSaver = {
 						updateCookieVals += "|"+fieldVals[0]+"~"+fieldVals[1];
 				} else {
 						updateCookieVals += fieldVals[0]+"~"+fieldVals[1];
-				}	
+				}
 			}
 			$.cookie(this.cookieName,updateCookieVals);
 		} else {
 			this.addValue(name,val);
 		}
 	},
-	
+
 	/**
 	* Remove the given key
 	* @param  {String}       the name of the key
@@ -145,7 +145,7 @@ var DataSaver = {
 		}
 		$.cookie(this.cookieName,updateCookieVals);
 	},
-	
+
 	/**
 	* Find the value using the given key
 	* @param  {String}       the name of the key
@@ -162,8 +162,8 @@ var DataSaver = {
 					return fieldVals[1];
 				}
 			}
-		} 
+		}
 		return false;
 	}
-	
+
 };

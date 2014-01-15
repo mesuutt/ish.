@@ -11,11 +11,11 @@
  */
 
 var urlHandler = {
-	
+
 	// set-up some default vars
 	skipBack: false,
 	targetOrigin: (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host,
-	
+
 	/**
 	* get the real file name for a given pattern name
 	* @param  {String}       the shorthand partials syntax for a given pattern
@@ -23,55 +23,55 @@ var urlHandler = {
 	* @return {String}       the real file path
 	*/
 	getFileName: function (name) {
-		
+
 		var baseDir     = "patterns";
 		var fileName    = "";
-		
+
 		if (name == undefined) {
 			return fileName;
 		}
-		
+
 		if (name == "all") {
 			return "styleguide/html/styleguide.html";
 		}
-		
+
 		var paths = (name.indexOf("viewall-") != -1) ? viewAllPaths : patternPaths;
 		nameClean = name.replace("viewall-","");
-		
+
 		// look at this as a regular pattern
 		var bits        = this.getPatternInfo(nameClean, paths);
 		var patternType = bits[0];
 		var pattern     = bits[1];
-		
+
 		if ((paths[patternType] != undefined) && (paths[patternType][pattern] != undefined)) {
-			
+
 			fileName = paths[patternType][pattern];
-			
+
 		} else if (paths[patternType] != undefined) {
-			
+
 			for (patternMatchKey in paths[patternType]) {
 				if (patternMatchKey.indexOf(pattern) != -1) {
 					fileName = paths[patternType][patternMatchKey];
 					break;
 				}
 			}
-		
+
 		}
-		
+
 		if (fileName == "") {
 			return fileName;
 		}
-		
+
 		var regex = /\//g;
 		if ((name.indexOf("viewall-") != -1) && (fileName != "")) {
 			fileName = baseDir+"/"+fileName.replace(regex,"-")+"/index.html";
 		} else if (fileName != "") {
 			fileName = baseDir+"/"+fileName.replace(regex,"-")+"/"+fileName.replace(regex,"-")+".html";
 		}
-		
+
 		return fileName;
 	},
-	
+
 	/**
 	* break up a pattern into its parts, pattern type and pattern name
 	* @param  {String}       the shorthand partials syntax for a given pattern
@@ -80,31 +80,31 @@ var urlHandler = {
 	* @return {Array}        the pattern type and pattern name
 	*/
 	getPatternInfo: function (name, paths) {
-		
+
 		var patternBits = name.split("-");
-		
+
 		var i = 1;
 		var c = patternBits.length;
-		
+
 		var patternType = patternBits[0];
 		while ((paths[patternType] == undefined) && (i < c)) {
 			patternType += "-"+patternBits[i];
 			i++;
 		}
-		
+
 		pattern = name.slice(patternType.length+1,name.length);
-		
+
 		return [patternType, pattern];
-		
+
 	},
-	
+
 	/**
 	* search the request vars for a particular item
 	*
 	* @return {Object}       a search of the window.location.search vars
 	*/
 	getRequestVars: function() {
-		
+
 		// the following is taken from https://developer.mozilla.org/en-US/docs/Web/API/window.location
 		var oGetVars = new (function (sSearch) {
 		  if (sSearch.length > 1) {
@@ -114,11 +114,11 @@ var urlHandler = {
 		    }
 		  }
 		})(window.location.search);
-		
+
 		return oGetVars;
-		
+
 	},
-	
+
 	/**
 	* push a pattern onto the current history based on a click
 	* @param  {String}       the shorthand partials syntax for a given pattern
@@ -139,38 +139,38 @@ var urlHandler = {
 			document.getElementById("sg-raw").setAttribute("href",urlHandler.getFileName(pattern));
 		}
 	},
-	
+
 	/**
 	* based on a click forward or backward modify the url and iframe source
 	* @param  {Object}      event info like state and properties set in pushState()
 	*/
 	popPattern: function (e) {
-		
+
 		var state = e.state;
-		
+
 		if (state == null) {
 			this.skipBack = false;
 			return;
 		} else if (state != null) {
 			var patternName = state.pattern;
-		} 
-		
+		}
+
 		var iFramePath = "";
 		iFramePath = this.getFileName(patternName);
 		if (iFramePath == "") {
 			iFramePath = "styleguide/html/styleguide.html";
 		}
-		
+
 		document.getElementById("sg-viewport").contentWindow.postMessage( { "path": iFramePath }, urlHandler.targetOrigin);
 		document.getElementById("title").innerHTML = "Pattern Lab - "+patternName;
 		document.getElementById("sg-raw").setAttribute("href",urlHandler.getFileName(patternName));
-		
+
 		if (wsnConnected) {
 			wsn.send( '{"url": "'+iFramePath+'", "patternpartial": "'+patternName+'" }' );
 		}
-		
+
 	}
-	
+
 }
 
 /**
