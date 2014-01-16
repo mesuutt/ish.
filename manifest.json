@@ -1,8 +1,8 @@
 {
-    "name": "Resposive Test in place",
-    "description": "Test responive design of any website with one click. No needs any permission.",
+    "name": "Responswitch",
+    "description": "Test responsive design of any website with one click. No needs any permission.",
     "manifest_version": 2,
-    "version": "0.1",
+    "version": "0.2",
     "content_scripts": [{
         "js": [ "jquery-1.10.2.min.js", "js/data-saver.js", "js/url-handler.js", "js/init.js", "contentscript.js"],
         "css": [ "styles.css" ],
@@ -12,11 +12,13 @@
         "scripts": ["background.js"]
     },
     "browser_action": {
-        "default_icon": "icon.png"
+        "default_icon": "icons/icon16.png"
     },
     "icons": {
-        "16": "icon.png",
-        "48": "icon.png",
-        "128": "icon.png"
-    }
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    },
+    "homepage_url": "https://github.com/mesuutt/responswitch",
+    "author": "Mesut Tasci"
 }
