@@ -1,4 +1,4 @@
-var runIsh = function($) {
+var initExtension = function($) {
     $(function() {
         $('head').empty();
         $('body').empty();
@@ -62,6 +62,6 @@ var runIsh = function($) {
 chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
     // Listining click to browser action event.
     if (msg.action == 'run') {
-        runIsh(jQuery);
+        initExtension(jQuery);
     }
 });
