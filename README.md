@@ -3,9 +3,9 @@
 
 ## Chrome extension
 
-I like ish. So I forked ish. and write this extension for easily use ish. on any website for test responsive design with <u>just one click</u>. If you like it too [you can install it from Chrome webstore](#).
+I like ish. So I forked ish. and write this extension for easily use ish. on any website for test responsive design with <u>just one click</u>. If you like it too [you can install it from Chrome webstore](https://chrome.google.com/webstore/detail/jnajocfhlflimigaiiidopobidekkanf).
 
-**[Go to Chrome webstore for install extension](#)**
+**[Go to Chrome webstore for install extension](https://chrome.google.com/webstore/detail/jnajocfhlflimigaiiidopobidekkanf)**
 
 
 ## Why ?
