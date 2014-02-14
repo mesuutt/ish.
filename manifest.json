@@ -5,8 +5,7 @@
     "version": "0.4",
     "content_scripts": [{
         "js": [ "jquery-1.10.2.min.js", "js/data-saver.js", "js/url-handler.js", "js/init.js", "contentscript.js"],
-        "css": [ "styles.css" ],
-        "matches": ["http://*/*", "https://*/*"]
+        "css": [ "styles.css" ]
     }],
     "background": {
         "scripts": ["background.js"],
