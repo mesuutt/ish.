@@ -1,6 +1,6 @@
 {
     "name": "Responswitch",
-    "description": "Test responsive design of any website with one click. No needs any permission.",
+    "description": "Test responsive design of any website with one click. Extension works when you click to extension button only. You can look source code and screenshots on github: https://github.com/mesuutt/responswitch/ . Permission required for you can test every website but only active browser tab."
     "manifest_version": 2,
     "version": "0.4",
     "content_scripts": [{
