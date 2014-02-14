@@ -1,4 +1,4 @@
-(function(w){
+var initIsh = function(w){
 	var sw = document.body.clientWidth, //Viewport Width
 		sh = document.body.clientHeight, //Viewport Height
 		minViewportWidth = 240, //Minimum Size for Viewport
@@ -12,8 +12,8 @@
 		discoMode = false,
 		hayMode = false,
 		hash = window.location.hash.replace(/^.*?#/,'');
-	
-	
+
+
 	$(w).resize(function(){ //Update dimensions on resize
 		sw = document.body.clientWidth;
 		sh = document.body.clientHeight;
@@ -29,6 +29,29 @@
 		}
 	}
 
+    $('#url-submit').on('click', function(e) {
+        var url = $('#url').val();
+        if (!url) return;
+        $('#sg-viewport').attr('src', url);
+    });
+
+    $('#url').on('keyup', function(e) {
+        if (e.which == 13) {
+            var url = $('#url').val();
+            if (!url) return;
+            $('#sg-viewport').attr('src', url);
+        }
+    })
+    .on('click', function() {
+		// Select input text
+        $(this).select();
+    });
+
+    // Exit from responsive test mode
+    $('.sg-exit').on('click', function() {
+        window.location.reload();
+    });
+
 	/* Pattern Lab accordion dropdown */
 	$('.sg-acc-handle').on("click", function(e){
 		var $this = $(this),
@@ -43,7 +66,7 @@
 		e.preventDefault();
 		$(this).parents('ul').toggleClass('active');
 	});
-	
+
 	//Size View Events
 
 	//Click Size Small Button
@@ -54,7 +77,7 @@
 		changeActiveState($(this));
 		sizeiframe(getRandom(minViewportWidth,500));
 	});
-	
+
 	//Click Size Medium Button
 	$('#sg-size-m').on("click", function(e){
 		e.preventDefault();
@@ -63,7 +86,7 @@
 		changeActiveState($(this));
 		sizeiframe(getRandom(500,800));
 	});
-	
+
 	//Click Size Large Button
 	$('#sg-size-l').on("click", function(e){
 		e.preventDefault();
@@ -74,14 +97,15 @@
 	});
 
 	//Click Full Width Button
-	$('#sg-size-full').on("click", function(e){ //Resets 
+	$('#sg-size-full').on("click", function(e){ //Resets
 		e.preventDefault();
 		killDisco();
 		killHay();
 		changeActiveState($(this));
 		sizeiframe(sw);
+		window.location.hash = 'full';
 	});
-	
+
 	//Click Random Size Button
 	$('#sg-size-random').on("click", function(e){
 		e.preventDefault();
@@ -95,7 +119,7 @@
 		changeActiveState($('#sg-size-random'));
 		sizeiframe(getRandom(minViewportWidth,sw));
 	}
-	
+
 	//Click for Disco Mode, which resizes the viewport randomly
 	$('#sg-size-disco').on("click", function(e){
 		e.preventDefault();
@@ -117,13 +141,13 @@
 	function disco() {
 		sizeiframe(getRandom(minViewportWidth,sw));
 	}
-	
+
 	function killDisco() {
 		discoMode = false;
 		clearInterval(discoID);
 		discoID = false;
 	}
-	
+
 	function startDisco() {
 		discoMode = true;
 		discoID = setInterval(disco, 800);
@@ -153,17 +177,17 @@
 		$('#sg-gen-container').removeClass('hay-mode');
 		sizeiframe(Math.floor(currentWidth));
 	}
-	
+
 	// start Hay! mode
 	function startHay() {
 		hayMode = true;
 		$('#sg-gen-container').removeClass("vp-animate").width(minViewportWidth+viewportResizeHandleWidth);
 		$sgViewport.removeClass("vp-animate").width(minViewportWidth);
-		
+
 		window.setTimeout(function(){
 			$('#sg-gen-container').addClass('hay-mode').width(maxViewportWidth+viewportResizeHandleWidth);
 			$sgViewport.addClass('hay-mode').width(maxViewportWidth);
-			
+
 			setInterval(function(){ var vpSize = $sgViewport.width(); updateSizeReading(vpSize); },100);
 		}, 200);
 	}
@@ -212,7 +236,7 @@
 		var val = parseFloat($(this).val());
 		updateSizeReading(val,'em','updatePxInput');
 	});
-	
+
 	// handle the MQ click
 	$('#sg-mq a').on("click", function(e){
 		e.preventDefault();
@@ -222,7 +246,7 @@
 		var width = (type === "px") ? val*1 : val*$bodySize;
 		sizeiframe(width,true);
 	});
-	
+
 	//Resize the viewport
 	//'size' is the target size of the viewport
 	//'animate' is a boolean for switching the CSS animation on or off. 'animate' is true by default, but can be set to false for things like nudging and dragging
@@ -252,7 +276,7 @@
 		updateSizeReading(theSize); //Update values in toolbar
 		saveSize(theSize); //Save current viewport to cookie
 	}
-	
+
 	function saveSize(size) {
 		if (!DataSaver.findValue('vpWidth')) {
 			DataSaver.addValue("vpWidth",size);
@@ -260,8 +284,8 @@
 			DataSaver.updateValue("vpWidth",size);
 		}
 	}
-	
-	
+
+
 	//Update Pixel and Em inputs
 	//'size' is the input number
 	//'unit' is the type of unit: either px or em. Default is px. Accepted values are 'px' and 'em'
@@ -274,7 +298,7 @@
 			pxSize = size;
 			emSize = size/$bodySize;
 		}
-		
+
 		if (target == 'updatePxInput') {
 			$sizePx.val(pxSize);
 		} else if (target == 'updateEmInput') {
@@ -282,19 +306,19 @@
 		} else {
 			$sizeEms.val(emSize.toFixed(2));
 			$sizePx.val(pxSize);
-		}	
+		}
 	}
-	
+
 	/* Returns a random number between min and max */
 	function getRandom (min, max) {
 	    return Math.random() * (max - min) + min;
 	}
-	
+
 	function updateViewportWidth(size) {
-	
+
 		$("#sg-viewport").width(size);
 		$("#sg-gen-container").width(size*1 + 14);
-		
+
 		updateSizeReading(size);
 	}
 
@@ -303,27 +327,27 @@
 	//   2. make a hidden div visible so that it can track mouse movements and make sure the pointer doesn't get lost in the iframe
 	//   3. on "mousemove" calculate the math, save the results to a cookie, and update the viewport
 	$('#sg-rightpull').mousedown(function(event) {
-		
+
 		// capture default data
 		var origClientX = event.clientX;
 		var origViewportWidth = $sgViewport.width();
-		
+
 		// show the cover
 		$("#sg-cover").css("display","block");
-		
+
 		// add the mouse move event and capture data. also update the viewport width
 		$('#sg-cover').mousemove(function(event) {
-			
+
 			viewportWidth = (origClientX > event.clientX) ? origViewportWidth - ((origClientX - event.clientX)*2) : origViewportWidth + ((event.clientX - origClientX)*2);
-			
+
 			if (viewportWidth > minViewportWidth) {
-				
+
 				if (!DataSaver.findValue('vpWidth')) {
 					DataSaver.addValue("vpWidth",viewportWidth);
 				} else {
 					DataSaver.updateValue("vpWidth",viewportWidth);
 				}
-				
+
 				sizeiframe(viewportWidth,false);
 			}
 		});
@@ -343,7 +367,7 @@
 
 	// get the request vars
 	var oGetVars = urlHandler.getRequestVars();
-	
+
 	// pre-load the viewport width
 	var vpWidth = 0;
 	var trackViewportWidth = true; // can toggle this feature on & off
@@ -361,7 +385,7 @@
 	}
 
 	//Read Hash In URL
-	if(hash === 'hay') { 
+	if(hash === 'hay') {
 		startHay(); ///Start Hay mode if hash says 'hay'
 	} else if(hash === 'disco') {
 		startDisco(); //Start disco mode if hash says 'disco'
@@ -369,4 +393,4 @@
 		sizeRandom(); ///Random screen size if hash says 'random'
 	}
 
-})(this);
+}
