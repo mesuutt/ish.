@@ -1,19 +1,17 @@
 {
     "name": "Responswitch",
-    "description": "Test responsive design of any website with one click. Extension works when you click to extension button only. You can look source code and screenshots on github: https://github.com/mesuutt/responswitch/ . Permission required for you can test every website but only active browser tab."
+    "description": "Test responsive design of any web page with one click. Extension works when you click to extension icon only.",
     "manifest_version": 2,
-    "version": "0.4",
+    "version": "0.6",
     "content_scripts": [{
         "js": [ "jquery-1.10.2.min.js", "js/data-saver.js", "js/url-handler.js", "js/init.js", "contentscript.js"],
-        "css": [ "styles.css" ]
+        "css": [ "styles.css" ],
+        "matches": ["http://*/*", "https://*/*"]
     }],
     "background": {
         "scripts": ["background.js"],
         "persistent": false
     },
-    "permissions": [
-        "activeTab"
-    ],
     "browser_action": {
         "default_icon": "icons/icon16.png"
     },
